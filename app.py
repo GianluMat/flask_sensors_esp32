@@ -30,7 +30,7 @@ def on_message(client, userdata, message):
 def on_connect(client, userdata, flags, rc, properties):
     print(f"Connesso con codice di ritorno {rc}")
     # Iscrivi solo una volta
-    client.subscribe("gian33home/sensors/data")
+    client.subscribe("gian33home/sensors/#")
 
 # Configura il client MQTT
 mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
@@ -48,7 +48,7 @@ if not hasattr(threading.current_thread(), 'mqtt_thread'):
     mqtt_thread = threading.Thread(target=mqtt_loop, daemon=True)
     mqtt_thread.start()
 
-@app.route('/api/sensordata', methods=['POST'])
+@app.route('/api/sensors/data', methods=['POST'])
 def receive_sensor_data():
     try:
         data = request.json
@@ -61,7 +61,7 @@ def receive_sensor_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/api/sensordata', methods=['GET'])
+@app.route('/api/sensors/data', methods=['GET'])
 def get_sensor_data():
     try:
         db = get_db()
