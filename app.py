@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pymongo import MongoClient
 from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
@@ -6,6 +7,14 @@ import threading
 import json
 
 app = Flask(__name__)
+
+CORS(app, 
+    #  resources={r"/*": {"origins": ["http://example.com", "http://anotherdomain.com"]}},
+     methods=["GET", "POST", "PUT", "DELETE"],
+     allow_headers=["Content-Type", "Authorization"],
+    #  supports_credentials=True,
+    #  max_age=3600
+)
 
 client = None
 
