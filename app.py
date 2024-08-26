@@ -39,7 +39,7 @@ def on_message(client, userdata, message):
 def on_connect(client, userdata, flags, rc, properties):
     print(f"Connesso con codice di ritorno {rc}")
     # Iscrivi solo una volta
-    client.subscribe("gian33home/sensors/#")
+    client.subscribe("gian33home/homesensors/#")
 
 # Configura il client MQTT
 mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
