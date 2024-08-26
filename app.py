@@ -28,13 +28,16 @@ def get_db():
 
 # Funzione di callback per i messaggi MQTT
 def on_message(client, userdata, message):
-    payload = message.payload.decode("utf-8")
-    print(f"Messaggio ricevuto su {message.topic}: {payload}")
-    data = json.loads(payload)
-    data['timestamp'] = datetime.now(timezone.utc)
-    db = get_db()
-    collection = db["sensors_data"]
-    collection.insert_one(data)
+    try:
+        payload = message.payload.decode("utf-8")
+        print(f"Messaggio ricevuto su {message.topic}: {payload}")
+        data = json.loads(payload)
+        data['timestamp'] = datetime.now(timezone.utc)
+        db = get_db()
+        collection = db["sensors_data"]
+        collection.insert_one(data)
+    except Exception as e:
+        print("An error occurred:", e)
 
 def on_connect(client, userdata, flags, rc, properties):
     print(f"Connesso con codice di ritorno {rc}")
