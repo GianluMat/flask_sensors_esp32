@@ -78,7 +78,15 @@ def get_sensor_data():
     try:
         db = get_db()
         collection = db["sensors_data"]
-        data = list(collection.find({}, {"_id": 0}))
+        sensor = request.args.get('sensor')
+        location = request.args.get('location')
+        query_filter = {}
+        if sensor:
+            query_filter['sensor'] = sensor
+        if location:
+            query_filter['location'] = location
+        data = list(collection.find(query_filter, {"_id": 0}))
+
         return jsonify(data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
